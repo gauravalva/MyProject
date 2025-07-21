@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPeek - Digital Reading Enhancement Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="reading-container">
+        <header>
+            <h1>WordPeek</h1>
+            <p class="subtitle">Your AI-powered reading companion - Highlight any word for instant definitions</p>
+        </header>
+        
+        <main class="content">
+            <article class="reading-content">
+                <h2>Sample Article: The Wonders of Science</h2>
+                
+                <p>
+                    <strong>Photosynthesis</strong> is one of the most fundamental processes in biology, enabling plants to convert sunlight into energy. This remarkable <em>biochemical</em> process involves the transformation of carbon dioxide and water into glucose and oxygen using chlorophyll as a catalyst.
+                </p>
+                
+                <p>
+                    The process of <strong>metamorphosis</strong> in insects demonstrates nature's incredible adaptability. From caterpillar to butterfly, this transformation involves complex hormonal changes and cellular restructuring that scientists are still studying today.
+                </p>
+                
+                <p>
+                    <strong>Quantum mechanics</strong> revolutionized our understanding of the microscopic world. The principle of <em>superposition</em> suggests that particles can exist in multiple states simultaneously until observed, challenging our classical intuitions about reality.
+                </p>
+                
+                <p>
+                    In the field of <strong>neuroscience</strong>, researchers study <em>neuroplasticity</em> - the brain's remarkable ability to reorganize itself by forming new neural connections throughout life. This discovery has profound implications for learning, recovery from brain injury, and understanding human potential.
+                </p>
+                
+                <p>
+                    The concept of <strong>biodiversity</strong> encompasses the variety of life forms on Earth, from microscopic bacteria to massive sequoia trees. <em>Ecosystem</em> stability depends on maintaining this delicate balance of species interactions and environmental factors.
+                </p>
+                
+                <p>
+                    Modern <strong>cryptography</strong> relies on complex mathematical algorithms to secure digital communications. The study of <em>cryptanalysis</em> involves breaking these codes, leading to an ongoing arms race between code makers and code breakers.
+                </p>
+            </article>
+        </main>
+    </div>
+
+    <!-- Definition Popup -->
+    <div id="definition-popup" class="popup-container" aria-hidden="true">
+        <div class="popup-content">
+            <div class="popup-header">
+                <div class="popup-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <button class="close-btn" aria-label="Close definition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="popup-body">
+                <div class="selected-word"></div>
+                <div class="definition-content">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Getting definition...</span>
+                    </div>
+                    <div class="definition-text" style="display: none;"></div>
+                    <div class="etymology" style="display: none;"></div>
+                    <div class="usage-example" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button class="action-btn copy-btn" aria-label="Copy definition">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button class="action-btn share-btn" aria-label="Share definition">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPeek - Your AI-Powered Reading Companion</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Demo header */
+        .demo-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 0;
+        }
+        
+        .demo-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .demo-header .tagline {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-instructions {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .demo-instructions h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .demo-instructions ol {
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .demo-instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .example-word {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .example-word:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Reading container */
+        .reading-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Content styles */
+        .reading-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .reading-content h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .reading-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .reading-content strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .reading-content em {
+            color: #764ba2;
+            font-style: italic;
+        }
+
+        /* Text selection styles */
+        ::selection {
+            background: rgba(102, 126, 234, 0.3);
+            color: #333;
+        }
+
+        ::-moz-selection {
+            background: rgba(102, 126, 234, 0.3);
+            color: #333;
+        }
+
+        /* Popup container */
+        .popup-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .popup-container.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        .popup-container.show .popup-content {
+            transform: translateX(0) scale(1);
+        }
+
+        /* Popup content */
+        .popup-content {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            max-width: calc(100vw - 40px);
+            transform: translateX(20px) scale(0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Popup header */
+        .popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .popup-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Popup body */
+        .popup-body {
+            padding: 1.25rem;
+        }
+
+        .selected-word {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: capitalize;
+        }
+
+        .definition-content {
+            min-height: 80px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .definition-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 1rem;
+        }
+
+        .etymology {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .usage-example {
+            font-size: 0.9rem;
+            color: #555;
+            padding: 0.75rem;
+            background: #f0f8ff;
+            border-radius: 8px;
+            border-left: 3px solid #764ba2;
+        }
+
+        .usage-example::before {
+            content: "💡 Example: ";
+            font-weight: 600;
+            color: #764ba2;
+        }
+
+        /* Popup footer */
+        .popup-footer {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: #e9ecef;
+            color: #333;
+            transform: translateY(-1px);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .demo-header {
+                padding: 2rem 1rem;
+            }
+            
+            .demo-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .demo-header .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .reading-container {
+                padding: 1.5rem;
+                margin: 0 1rem;
+                border-radius: 15px;
+            }
+            
+            .reading-content {
+                font-size: 1rem;
+            }
+            
+            .popup-container {
+                right: 10px;
+                left: 10px;
+                top: auto;
+                bottom: 20px;
+                transform: none;
+                width: auto;
+            }
+            
+            .popup-container.show .popup-content {
+                transform: translateY(0) scale(1);
+            }
+            
+            .popup-content {
+                width: 100%;
+                max-width: none;
+                transform: translateY(20px) scale(0.95);
+                border-radius: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-header">
+        <h1>WordPeek</h1>
+        <p class="tagline">Your AI-powered reading companion</p>
+        
+        <div class="demo-instructions">
+            <h3>🚀 How to try WordPeek:</h3>
+            <ol>
+                <li>Highlight any word or phrase in the text below</li>
+                <li>Watch the beautiful popup appear with instant definitions</li>
+                <li>Try these example words for the best experience:</li>
+            </ol>
+            
+            <div class="highlight-examples">
+                <span class="example-word">photosynthesis</span>
+                <span class="example-word">quantum mechanics</span>
+                <span class="example-word">neuroplasticity</span>
+                <span class="example-word">algorithm</span>
+                <span class="example-word">biodiversity</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="reading-container">        
+        <main class="content">
+            <article class="reading-content">
+                <h2>Explore the Wonders of Science with WordPeek</h2>
+                
+                <p>
+                    <strong>Photosynthesis</strong> is one of the most fundamental processes in biology, enabling plants to convert sunlight into energy. This remarkable <em>biochemical</em> process involves the transformation of carbon dioxide and water into glucose and oxygen using chlorophyll as a catalyst.
+                </p>
+                
+                <p>
+                    The process of <strong>metamorphosis</strong> in insects demonstrates nature's incredible adaptability. From caterpillar to butterfly, this transformation involves complex hormonal changes and cellular restructuring that scientists are still studying today.
+                </p>
+                
+                <p>
+                    <strong>Quantum mechanics</strong> revolutionized our understanding of the microscopic world. The principle of <em>superposition</em> suggests that particles can exist in multiple states simultaneously until observed, challenging our classical intuitions about reality.
+                </p>
+                
+                <p>
+                    In the field of <strong>neuroscience</strong>, researchers study <em>neuroplasticity</em> - the brain's remarkable ability to reorganize itself by forming new neural connections throughout life. This discovery has profound implications for learning, recovery from brain injury, and understanding human potential.
+                </p>
+                
+                <p>
+                    The concept of <strong>biodiversity</strong> encompasses the variety of life forms on Earth, from microscopic bacteria to massive sequoia trees. <em>Ecosystem</em> stability depends on maintaining this delicate balance of species interactions and environmental factors.
+                </p>
+                
+                <p>
+                    Modern <strong>cryptography</strong> relies on complex mathematical algorithms to secure digital communications. The study of <em>cryptanalysis</em> involves breaking these codes, leading to an ongoing arms race between code makers and code breakers.
+                </p>
+                
+                <p>
+                    Artificial intelligence and machine learning have revolutionized how we process information. Complex <strong>algorithms</strong> can now recognize patterns, make predictions, and even generate creative content, transforming industries from healthcare to entertainment.
+                </p>
+            </article>
+        </main>
+    </div>
+
+    <!-- Definition Popup -->
+    <div id="definition-popup" class="popup-container" aria-hidden="true">
+        <div class="popup-content">
+            <div class="popup-header">
+                <div class="popup-icon">📚</div>
+                <button class="close-btn" aria-label="Close definition">✕</button>
+            </div>
+            <div class="popup-body">
+                <div class="selected-word"></div>
+                <div class="definition-content">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <span>Getting definition...</span>
+                    </div>
+                    <div class="definition-text" style="display: none;"></div>
+                    <div class="etymology" style="display: none;"></div>
+                    <div class="usage-example" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button class="action-btn copy-btn" aria-label="Copy definition">
+                    📋 Copy
+                </button>
+                <button class="action-btn share-btn" aria-label="Share definition">
+                    📤 Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class WordPeekTool {
+            constructor() {
+                this.popup = document.getElementById('definition-popup');
+                this.selectedWordEl = document.querySelector('.selected-word');
+                this.definitionTextEl = document.querySelector('.definition-text');
+                this.etymologyEl = document.querySelector('.etymology');
+                this.usageExampleEl = document.querySelector('.usage-example');
+                this.loadingEl = document.querySelector('.loading');
+                this.copyBtn = document.querySelector('.copy-btn');
+                this.shareBtn = document.querySelector('.share-btn');
+                this.closeBtn = document.querySelector('.close-btn');
+                
+                this.currentSelection = '';
+                this.isPopupVisible = false;
+                
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+            }
+            
+            bindEvents() {
+                // Text selection events
+                document.addEventListener('mouseup', (e) => this.handleTextSelection(e));
+                document.addEventListener('touchend', (e) => this.handleTextSelection(e));
+                
+                // Popup controls
+                this.closeBtn.addEventListener('click', () => this.hidePopup());
+                this.copyBtn.addEventListener('click', () => this.copyDefinition());
+                this.shareBtn.addEventListener('click', () => this.shareDefinition());
+                
+                // Click outside to close
+                document.addEventListener('click', (e) => {
+                    if (this.isPopupVisible && !this.popup.contains(e.target)) {
+                        this.hidePopup();
+                    }
+                });
+                
+                // Escape key to close
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.isPopupVisible) {
+                        this.hidePopup();
+                    }
+                });
+                
+                // Prevent popup from closing when clicking inside it
+                this.popup.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+            
+            handleTextSelection(e) {
+                setTimeout(() => {
+                    const selection = window.getSelection();
+                    const selectedText = selection.toString().trim();
+                    
+                    if (selectedText && selectedText.length > 1) {
+                        if (selectedText.length < 2 || /^\d+$/.test(selectedText)) {
+                            return;
+                        }
+                        
+                        const cleanText = this.cleanSelectedText(selectedText);
+                        if (cleanText && cleanText !== this.currentSelection) {
+                            this.currentSelection = cleanText;
+                            this.showPopup(cleanText);
+                        }
+                    } else if (this.isPopupVisible) {
+                        const isClickingInsidePopup = this.popup.contains(e.target);
+                        if (!isClickingInsidePopup) {
+                            this.hidePopup();
+                        }
+                    }
+                }, 100);
+            }
+            
+            cleanSelectedText(text) {
+                return text
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim()
+                    .toLowerCase();
+            }
+            
+            async showPopup(selectedText) {
+                this.selectedWordEl.textContent = selectedText;
+                
+                this.showLoadingState();
+                this.popup.classList.add('show');
+                this.popup.setAttribute('aria-hidden', 'false');
+                this.isPopupVisible = true;
+                
+                this.popup.focus();
+                
+                try {
+                    const definition = await this.fetchDefinition(selectedText);
+                    this.displayDefinition(definition);
+                } catch (error) {
+                    console.error('Error fetching definition:', error);
+                    this.displayError();
+                }
+            }
+            
+            hidePopup() {
+                this.popup.classList.remove('show');
+                this.popup.setAttribute('aria-hidden', 'true');
+                this.isPopupVisible = false;
+                this.currentSelection = '';
+                
+                window.getSelection().removeAllRanges();
+            }
+            
+            showLoadingState() {
+                this.loadingEl.style.display = 'flex';
+                this.definitionTextEl.style.display = 'none';
+                this.etymologyEl.style.display = 'none';
+                this.usageExampleEl.style.display = 'none';
+            }
+            
+            async fetchDefinition(word) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const definition = this.getMockDefinition(word);
+                        resolve(definition);
+                    }, 800 + Math.random() * 400);
+                });
+            }
+            
+            getMockDefinition(word) {
+                const definitions = {
+                    'photosynthesis': {
+                        definition: 'The process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water, producing oxygen as a byproduct.',
+                        etymology: 'From Greek "photos" (light) + "synthesis" (putting together)',
+                        example: 'Plants rely on photosynthesis to convert sunlight into energy for growth.'
+                    },
+                    'quantum mechanics': {
+                        definition: 'A fundamental theory in physics that provides a description of the physical properties of nature at the scale of atoms and subatomic particles.',
+                        etymology: 'From Latin "quantum" (how much) + Greek "mechanikos" (relating to machines)',
+                        example: 'Quantum mechanics explains phenomena that classical physics cannot.'
+                    },
+                    'neuroplasticity': {
+                        definition: 'The ability of neural networks in the brain to change through growth and reorganization, allowing the brain to adapt throughout life.',
+                        etymology: 'From Greek "neuron" (nerve) + "plastikos" (moldable)',
+                        example: 'Neuroplasticity enables stroke patients to recover lost functions.'
+                    },
+                    'algorithm': {
+                        definition: 'A process or set of rules to be followed in calculations or other problem-solving operations, especially by a computer.',
+                        etymology: 'From Arabic "al-Khwarizmi" after Persian mathematician',
+                        example: 'Search engines use complex algorithms to rank web pages.'
+                    },
+                    'biodiversity': {
+                        definition: 'The variety of life in the world or in a particular habitat or ecosystem, including diversity within species, between species, and of ecosystems.',
+                        etymology: 'From Greek "bios" (life) + Latin "diversitas" (variety)',
+                        example: 'Rainforests contain the highest levels of biodiversity on Earth.'
+                    },
+                    'cryptography': {
+                        definition: 'The practice and study of techniques for secure communication in the presence of adversaries, involving creating and analyzing protocols.',
+                        etymology: 'From Greek "kryptos" (hidden) + "graphein" (to write)',
+                        example: 'Modern cryptography protects online banking transactions.'
+                    },
+                    'biochemical': {
+                        definition: 'Relating to or involving chemical processes within living organisms.',
+                        etymology: 'From Greek "bios" (life) + "chemical"',
+                        example: 'Enzymes facilitate biochemical reactions in cells.'
+                    }
+                };
+                
+                const lowerWord = word.toLowerCase();
+                
+                if (definitions[lowerWord]) {
+                    return definitions[lowerWord];
+                }
+                
+                for (const [key, def] of Object.entries(definitions)) {
+                    if (key.includes(lowerWord) || lowerWord.includes(key)) {
+                        return def;
+                    }
+                }
+                
+                return {
+                    definition: `"${word}" - A term that may have specialized meaning in its context. This word might be technical, scientific, or domain-specific.`,
+                    etymology: 'Etymology information not available for this term.',
+                    example: `The word "${word}" appears in specialized or technical contexts.`
+                };
+            }
+            
+            displayDefinition(definition) {
+                this.loadingEl.style.display = 'none';
+                
+                this.definitionTextEl.textContent = definition.definition;
+                this.definitionTextEl.style.display = 'block';
+                
+                if (definition.etymology && definition.etymology !== 'Etymology information not available for this term.') {
+                    this.etymologyEl.textContent = definition.etymology;
+                    this.etymologyEl.style.display = 'block';
+                } else {
+                    this.etymologyEl.style.display = 'none';
+                }
+                
+                if (definition.example) {
+                    this.usageExampleEl.textContent = definition.example.replace('💡 Example: ', '');
+                    this.usageExampleEl.style.display = 'block';
+                } else {
+                    this.usageExampleEl.style.display = 'none';
+                }
+            }
+            
+            displayError() {
+                this.loadingEl.style.display = 'none';
+                this.definitionTextEl.textContent = 'Sorry, we couldn\'t fetch the definition at this time. Please try again later.';
+                this.definitionTextEl.style.display = 'block';
+                this.etymologyEl.style.display = 'none';
+                this.usageExampleEl.style.display = 'none';
+            }
+            
+            async copyDefinition() {
+                const definition = this.definitionTextEl.textContent;
+                const word = this.selectedWordEl.textContent;
+                const textToCopy = `${word}: ${definition}`;
+                
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    this.showToast('Definition copied to clipboard!');
+                } catch (error) {
+                    console.error('Failed to copy:', error);
+                    this.showToast('Failed to copy definition');
+                }
+            }
+            
+            shareDefinition() {
+                const definition = this.definitionTextEl.textContent;
+                const word = this.selectedWordEl.textContent;
+                const shareText = `${word}: ${definition}`;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: `Definition of ${word}`,
+                        text: shareText,
+                        url: window.location.href
+                    }).catch(console.error);
+                } else {
+                    this.copyDefinition();
+                }
+            }
+            
+            showToast(message) {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #333;
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 25px;
+                    font-size: 14px;
+                    z-index: 10001;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+                
+                document.body.appendChild(toast);
+                
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            document.body.removeChild(toast);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // Initialize WordPeek when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new WordPeekTool();
+        });
+
+        // Add click handlers for example words
+        document.querySelectorAll('.example-word').forEach(word => {
+            word.addEventListener('click', () => {
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                
+                const range = document.createRange();
+                range.selectNodeContents(word);
+                selection.addRange(range);
+                
+                const event = new Event('mouseup', { bubbles: true });
+                word.dispatchEvent(event);
+            });
+        });
+    </script>
+</body>
+</html>
