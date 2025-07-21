@@ -1,0 +1,56 @@
+{
+  "name": "ai-definition-widget",
+  "version": "1.0.0",
+  "description": "AI-powered contextual definitions for selected text with a sleek right-side popup interface",
+  "main": "content-script.js",
+  "scripts": {
+    "build": "npm run clean && npm run copy-files",
+    "clean": "rm -rf dist",
+    "copy-files": "mkdir -p dist && cp -r *.js *.html *.css *.json icons dist/",
+    "package": "npm run build && cd dist && zip -r ../ai-definition-widget.zip .",
+    "dev": "web-ext run --source-dir=. --browser-console",
+    "lint": "eslint *.js",
+    "test": "echo 'Open demo.html in your browser to test the extension'",
+    "validate": "web-ext lint --source-dir=."
+  },
+  "keywords": [
+    "browser-extension",
+    "definitions",
+    "ai",
+    "contextual",
+    "reading",
+    "dictionary",
+    "chrome-extension",
+    "firefox-addon",
+    "edge-extension"
+  ],
+  "author": "AI Definition Widget Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/ai-definition-widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-repo/ai-definition-widget/issues"
+  },
+  "homepage": "https://github.com/your-repo/ai-definition-widget#readme",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "web-ext": "^7.0.0"
+  },
+  "webExt": {
+    "sourceDir": ".",
+    "artifactsDir": "dist",
+    "ignoreFiles": [
+      "package.json",
+      "package-lock.json",
+      "node_modules",
+      ".git",
+      "*.md",
+      ".eslintrc.js"
+    ]
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

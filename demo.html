@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Definition Widget Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8f9fa;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 16px;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .demo-content {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .demo-content h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    
+    .demo-content h3 {
+      color: #555;
+      margin: 30px 0 15px 0;
+      font-size: 1.3rem;
+    }
+    
+    .demo-content p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    
+    .highlight {
+      background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .instructions {
+      background: #e3f2fd;
+      border: 1px solid #bbdefb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .instructions h3 {
+      color: #1976d2;
+      margin-bottom: 15px;
+    }
+    
+    .instructions ol {
+      margin-left: 20px;
+    }
+    
+    .instructions li {
+      margin-bottom: 8px;
+      color: #424242;
+    }
+    
+    .test-words {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .test-word {
+      background: #f0f4f8;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      color: #2d3748;
+    }
+    
+    .test-word:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 10px;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .demo-content {
+        padding: 20px;
+      }
+      
+      .test-words {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>AI Definition Widget Demo</h1>
+      <p>Test the contextual definition popup by selecting words below</p>
+    </div>
+    
+    <div class="instructions">
+      <h3>How to Test the Widget</h3>
+      <ol>
+        <li>Install the AI Definition Widget browser extension</li>
+        <li>Select any word or phrase on this page by highlighting it with your mouse</li>
+        <li>Watch as the definition popup appears on the right side of your screen</li>
+        <li>Try the copy and share buttons in the popup</li>
+        <li>Press Escape or click the X button to close the popup</li>
+      </ol>
+    </div>
+    
+    <div class="demo-content">
+      <h2>Sample Content for Testing</h2>
+      
+      <h3>Science & Nature</h3>
+      <p>
+        The process of <span class="highlight">photosynthesis</span> is fundamental to life on Earth. During this remarkable biological process, plants convert sunlight, carbon dioxide, and water into glucose and oxygen. This <span class="highlight">ubiquitous</span> phenomenon occurs in chloroplasts, which contain the green pigment chlorophyll that captures light energy.
+      </p>
+      
+      <p>
+        Many natural phenomena are <span class="highlight">ephemeral</span>, lasting only briefly before disappearing. The <span class="highlight">aurora borealis</span>, for instance, creates spectacular light displays in polar regions that can vanish within minutes.
+      </p>
+      
+      <h3>Literature & Language</h3>
+      <p>
+        Writers often experience moments of <span class="highlight">serendipity</span> when they discover unexpected connections between seemingly unrelated ideas. This happy accident can lead to breakthrough insights that transform their work. The concept of <span class="highlight">zeitgeist</span> captures the spirit of an era, reflecting the prevailing cultural and intellectual climate.
+      </p>
+      
+      <p>
+        Some authors employ <span class="highlight">juxtaposition</span> to create powerful contrasts in their narratives, while others prefer <span class="highlight">subtlety</span> and <span class="highlight">nuance</span> to convey deeper meanings. The art of <span class="highlight">rhetoric</span> has been studied since ancient times, helping speakers and writers persuade their audiences effectively.
+      </p>
+      
+      <h3>Technology & Innovation</h3>
+      <p>
+        Modern technology has made information <span class="highlight">ubiquitous</span>, accessible from virtually anywhere at any time. The concept of <span class="highlight">paradigm</span> shifts helps us understand how revolutionary ideas can completely transform entire fields of study or industry.
+      </p>
+      
+      <p>
+        Artificial intelligence systems are becoming increasingly <span class="highlight">sophisticated</span>, capable of performing tasks that once required human intelligence. The <span class="highlight">algorithm</span> behind these systems processes vast amounts of data to identify patterns and make predictions.
+      </p>
+      
+      <h3>Philosophy & Ideas</h3>
+      <p>
+        The concept of <span class="highlight">existentialism</span> emerged in the 20th century, emphasizing individual existence and the freedom of choice. Philosophers often grapple with <span class="highlight">paradoxes</span> - seemingly contradictory statements that may reveal deeper truths upon closer examination.
+      </p>
+      
+      <p>
+        The notion of <span class="highlight">epistemology</span> deals with the nature of knowledge itself, questioning how we know what we know. This branch of philosophy examines the relationship between belief, truth, and justification.
+      </p>
+    </div>
+    
+    <div class="demo-content">
+      <h2>Quick Test Words</h2>
+      <p>Click on any of these words to quickly test the definition widget:</p>
+      
+      <div class="test-words">
+        <div class="test-word" onclick="selectText(this)">photosynthesis</div>
+        <div class="test-word" onclick="selectText(this)">serendipity</div>
+        <div class="test-word" onclick="selectText(this)">ubiquitous</div>
+        <div class="test-word" onclick="selectText(this)">ephemeral</div>
+        <div class="test-word" onclick="selectText(this)">zeitgeist</div>
+        <div class="test-word" onclick="selectText(this)">paradigm</div>
+        <div class="test-word" onclick="selectText(this)">algorithm</div>
+        <div class="test-word" onclick="selectText(this)">existentialism</div>
+        <div class="test-word" onclick="selectText(this)">epistemology</div>
+        <div class="test-word" onclick="selectText(this)">juxtaposition</div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>
+        Built with ❤️ for better reading experiences.<br>
+        <a href="#" onclick="openExtensionPopup()">Open Extension Settings</a> | 
+        <a href="https://github.com/your-repo/ai-definition-widget">View on GitHub</a>
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    function selectText(element) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      
+      // Trigger a mouseup event to activate the widget
+      setTimeout(() => {
+        document.dispatchEvent(new MouseEvent('mouseup', {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        }));
+      }, 10);
+    }
+    
+    function openExtensionPopup() {
+      alert('Click on the AI Definition Widget extension icon in your browser toolbar to access settings.');
+    }
+    
+    // Add some interactive behavior
+    document.addEventListener('DOMContentLoaded', function() {
+      // Highlight words on hover for better UX
+      const highlights = document.querySelectorAll('.highlight');
+      highlights.forEach(highlight => {
+        highlight.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.05)';
+          this.style.transition = 'transform 0.2s ease';
+        });
+        
+        highlight.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
