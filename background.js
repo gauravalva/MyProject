@@ -1,9 +1,9 @@
-// Background service worker for the Digital Reading Enhancement Tool
+// Background service worker for WordPeek - Digital Reading Enhancement Tool
 // Handles API calls, storage, and extension lifecycle
 
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'install') {
-        console.log('Digital Reading Enhancement Tool installed');
+        console.log('WordPeek installed');
         
         // Set default settings
         chrome.storage.sync.set({

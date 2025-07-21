@@ -1,7 +1,7 @@
-// Content script for the Digital Reading Enhancement Tool
+// Content script for WordPeek - Digital Reading Enhancement Tool
 // This script runs on all web pages to provide word definition functionality
 
-class ReadingEnhancementExtension {
+class WordPeekExtension {
     constructor() {
         this.popup = null;
         this.isPopupVisible = false;
@@ -20,7 +20,7 @@ class ReadingEnhancementExtension {
     createShadowDOM() {
         // Create a shadow DOM to isolate our styles
         const container = document.createElement('div');
-        container.id = 'reading-enhancement-extension';
+        container.id = 'wordpeek-extension';
         document.body.appendChild(container);
         
         this.shadowRoot = container.attachShadow({ mode: 'closed' });
@@ -583,11 +583,11 @@ class ReadingEnhancementExtension {
     }
 }
 
-// Initialize the extension when the page is loaded
+// Initialize WordPeek when the page is loaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        new ReadingEnhancementExtension();
+        new WordPeekExtension();
     });
 } else {
-    new ReadingEnhancementExtension();
+    new WordPeekExtension();
 }

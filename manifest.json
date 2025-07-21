@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Digital Reading Enhancement Tool",
+  "name": "WordPeek",
   "version": "1.0.0",
-  "description": "Get instant AI-powered definitions for any word or phrase while reading online content",
+  "description": "Your AI-powered reading companion - Get instant definitions for any word or phrase while reading online content",
   "permissions": [
     "activeTab",
     "storage",
@@ -24,7 +24,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Reading Enhancement Tool",
+    "default_title": "WordPeek",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",

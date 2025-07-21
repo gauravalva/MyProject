@@ -1,4 +1,4 @@
-// Popup script for the Digital Reading Enhancement Tool
+// Popup script for WordPeek - Digital Reading Enhancement Tool
 // Handles settings UI and communication with background script
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -237,21 +237,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Open help page
     function openHelpPage() {
         chrome.tabs.create({
-            url: 'https://github.com/your-username/reading-enhancement-tool#help'
+            url: 'https://github.com/your-username/wordpeek#help'
         });
     }
     
     // Open feedback page
     function openFeedbackPage() {
         chrome.tabs.create({
-            url: 'https://github.com/your-username/reading-enhancement-tool/issues'
+            url: 'https://github.com/your-username/wordpeek/issues'
         });
     }
     
     // Open privacy page
     function openPrivacyPage() {
         chrome.tabs.create({
-            url: 'https://github.com/your-username/reading-enhancement-tool#privacy'
+            url: 'https://github.com/your-username/wordpeek#privacy'
         });
     }
     

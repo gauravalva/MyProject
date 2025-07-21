@@ -1,4 +1,4 @@
-class ReadingEnhancementTool {
+class WordPeekTool {
     constructor() {
         this.popup = document.getElementById('definition-popup');
         this.selectedWordEl = document.querySelector('.selected-word');
@@ -380,19 +380,19 @@ class ReadingEnhancementTool {
     }
 }
 
-// Initialize the reading enhancement tool when the DOM is loaded
+// Initialize WordPeek when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new ReadingEnhancementTool();
+    new WordPeekTool();
 });
 
 // Handle page visibility changes to hide popup when tab becomes inactive
 document.addEventListener('visibilitychange', () => {
-    if (document.hidden && window.readingTool && window.readingTool.isPopupVisible) {
-        window.readingTool.hidePopup();
+    if (document.hidden && window.wordPeek && window.wordPeek.isPopupVisible) {
+        window.wordPeek.hidePopup();
     }
 });
 
 // Store reference globally for debugging
 window.addEventListener('load', () => {
-    window.readingTool = new ReadingEnhancementTool();
+    window.wordPeek = new WordPeekTool();
 });

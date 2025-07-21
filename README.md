@@ -1,6 +1,6 @@
-# 📚 Digital Reading Enhancement Tool
+# 📚 WordPeek
 
-A cross-platform browser extension and web tool that provides instant AI-powered definitions for unfamiliar words and phrases while reading digital content. Features a beautiful, responsive contextual popup that appears when you highlight text.
+Your AI-powered reading companion! WordPeek is a cross-platform browser extension and web tool that provides instant AI-powered definitions for unfamiliar words and phrases while reading digital content. Features a beautiful, responsive contextual popup that appears when you highlight text.
 
 ![Demo](demo-screenshot.png)
 
@@ -228,11 +228,13 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 - **Documentation**: This README and inline comments
 - **Issues**: GitHub Issues tab
-- **Email**: support@readingenhancement.com
+- **Email**: support@wordpeek.com
 - **Discord**: Join our community server
 
 ---
 
 **Made with ❤️ for better reading experiences**
+
+*WordPeek - Your AI-powered reading companion*
 
 *Last updated: December 2024*
